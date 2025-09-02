@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload } from "react-icons/fa6";
 import Image from "next/image";
@@ -103,13 +103,23 @@ function BackgroundTexture() {
 // ---------- Main ----------
 export default function Page() {
   const [active, setActive] = useState("about");
-  const refs = useMemo(() => ({
-    about: useRef<HTMLElement>(null),
-    experience: useRef<HTMLElement>(null),
-    achievements: useRef<HTMLElement>(null),
-    skills: useRef<HTMLElement>(null),
-    contact: useRef<HTMLElement>(null),
-  }), []);
+
+  // FIX: Declaring useRefs at the top level of the component
+  const aboutRef = useRef<HTMLElement>(null);
+  const experienceRef = useRef<HTMLElement>(null);
+  const achievementsRef = useRef<HTMLElement>(null);
+  const skillsRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
+
+  // Creating a stable object of refs
+  const refs = {
+    about: aboutRef,
+    experience: experienceRef,
+    achievements: achievementsRef,
+    skills: skillsRef,
+    contact: contactRef,
+  };
+
   const [progress, setProgress] = useState(0);
   const [achTab, setAchTab] = useState<keyof typeof achievements>("Media Manager");
   const typeText = useTypewriter(
@@ -277,55 +287,4 @@ export default function Page() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            {achievements[achTab].map((a, i) => (
-              <div key={i} className="flex items-start gap-3 p-4 bg-white shadow rounded-xl">
-                <div className="text-teal-500 text-xl mt-1">
-                  {a.icon}
-                </div>
-                <p className="text-sm">{a.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Skills */}
-        <section id="skills" ref={refs.skills}>
-          <h3 className="text-2xl font-bold mb-6">Skills</h3>
-          <div className="flex flex-wrap gap-3">
-            {skills.map((skill, index) => (
-              <span
-                key={index}
-                className="px-4 py-2 bg-white rounded-full shadow text-sm font-medium text-teal-700"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section id="contact" ref={refs.contact} className="pb-20">
-          <h3 className="text-2xl font-bold mb-6">Contact</h3>
-          <p className="flex items-center gap-2 mb-2">
-            <span className="w-5 h-5 flex items-center justify-center">📧</span>
-            <a href="mailto:aakarshbommakanti@gmail.com" className="text-teal-600 hover:underline">aakarshbommakanti@gmail.com</a>
-          </p>
-          <p className="flex items-center gap-2 mb-2">
-            <span className="w-5 h-5 flex items-center justify-center">📱</span>
-            <span>+91 81214 02101</span>
-          </p>
-          <p className="flex items-center gap-2 mb-2">
-            <span className="w-5 h-5 flex items-center justify-center text-lg">
-              <FaXTwitter />
-            </span>
-            <a href="https://twitter.com/aakarsh_ab" className="text-teal-600 hover:underline">@aakarsh_ab</a>
-          </p>
-          <p className="flex items-center gap-2">
-            <span className="w-5 h-5 flex items-center justify-center">📍</span>
-            <span>Hyderabad, India</span>
-          </p>
-        </section>
-      </main>
-    </div>
-  );
-}
+            {achievements[achTab].
