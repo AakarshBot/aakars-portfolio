@@ -104,14 +104,12 @@ function BackgroundTexture() {
 export default function Page() {
   const [active, setActive] = useState("about");
 
-  // FIX: Declaring useRefs at the top level of the component
   const aboutRef = useRef<HTMLElement>(null);
   const experienceRef = useRef<HTMLElement>(null);
   const achievementsRef = useRef<HTMLElement>(null);
   const skillsRef = useRef<HTMLElement>(null);
   const contactRef = useRef<HTMLElement>(null);
 
-  // Creating a stable object of refs
   const refs = {
     about: aboutRef,
     experience: experienceRef,
@@ -128,7 +126,6 @@ export default function Page() {
     1000
   );
 
-  // Scroll progress
   useEffect(() => {
     const onScroll = () => {
       const height = document.documentElement.scrollHeight - window.innerHeight;
@@ -138,7 +135,6 @@ export default function Page() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Nav highlight
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
