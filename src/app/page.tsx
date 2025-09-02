@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FaVideo, FaChartLine, FaPenFancy, FaGlobe, FaXTwitter, FaDownload } from "react-icons/fa6";
 import Image from "next/image";
@@ -103,13 +103,13 @@ function BackgroundTexture() {
 // ---------- Main ----------
 export default function Page() {
   const [active, setActive] = useState("about");
-  const refs = {
+  const refs = useMemo(() => ({
     about: useRef<HTMLElement>(null),
     experience: useRef<HTMLElement>(null),
     achievements: useRef<HTMLElement>(null),
     skills: useRef<HTMLElement>(null),
     contact: useRef<HTMLElement>(null),
-  };
+  }), []);
   const [progress, setProgress] = useState(0);
   const [achTab, setAchTab] = useState<keyof typeof achievements>("Media Manager");
   const typeText = useTypewriter(
@@ -140,7 +140,7 @@ export default function Page() {
     );
     Object.values(refs).forEach((r) => r.current && observer.observe(r.current));
     return () => observer.disconnect();
-  }, [refs]); // <--- FIX: Added 'refs' to dependency array
+  }, [refs]);
 
   const scrollTo = (r: React.RefObject<HTMLElement>) =>
     r.current?.scrollIntoView({ behavior: "smooth" });
@@ -193,7 +193,6 @@ export default function Page() {
               {typeText}
               <span className="inline-block w-1 h-6 bg-teal-500 animate-pulse ml-1"></span>
             </p>
-            {/* FIX: Escaped apostrophes */}
             <p className="text-md sm:text-lg leading-relaxed text-gray-700">
               I&apos;ve spent over a decade working to bring fans closer to the sports they love. As a media manager and content creator, I&apos;ve had the unique opportunity to build a fan culture from the ground up, scripting a two-season documentary series for Disney+ Hotstar. I&apos;m a hands-on leader who uses tactical analysis and data to create content that truly connects with a sports audience, leading to significant growth in social media engagement and website traffic.
             </p>
