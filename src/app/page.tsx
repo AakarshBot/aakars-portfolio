@@ -336,4 +336,3 @@ export default function Page() {
     </div>
   );
 }
-Final fix for JSX and hooks errors
